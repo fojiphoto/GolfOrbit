@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
+<head>
     <link rel="manifest" href="manifest.json">
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Golf Orbit</title>
-  <script src="https://assets.msn.com/staticsb/statics/latest/msstart-games-sdk/msstart-v1.0.0-rc.20.min.js"></script>
+    <script src="https://assets.msn.com/staticsb/statics/latest/msstart-games-sdk/msstart-v1.0.0-rc.20.min.js"></script>
 </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
     <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #000000"></canvas>
@@ -27,9 +27,9 @@
       }
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/96bb69b03f7016f5db619b500810dd7d.data.unityweb",
-        frameworkUrl: "Build/bb38054a63dc07c5f390d9bb34844e70.framework.js.unityweb",
-        codeUrl: "Build/0122d794df80d95d532d3289bd54fbbe.wasm.unityweb",
+        dataUrl: "Build/0d28690643b522baa6099709feb1f539.data.unityweb",
+        frameworkUrl: "Build/afdd5818e534a95bb786783c2dc9ac5d.framework.js.unityweb",
+        codeUrl: "Build/e40fbc7f9f6cb4c2d0f9e6c5144397db.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "PinpinTeam",
         productName: "Golf Orbit",
@@ -40,44 +40,68 @@
     </script>
   
 <script>
+  // GLOBAL variables
+  let interstitialAdInstance = null;
+  let rewardedAdInstance = null;
+
+  // Load interstitial ad
   function LoadInterstitialAd() {
-    $msstart.loadAdsAsync({adType: 'interstitial'}).then(adInstance => {
-      window.interstitialAdInstance = adInstance;
+    $msstart.loadAdsAsync().then(ad => {
+      interstitialAdInstance = ad;
+      console.log('Interstitial loaded');
+    }).catch(err => {
+      console.error('Interstitial load failed', err);
     });
   }
 
+  // Show interstitial ad
   function ShowInterstitialAd() {
-    if(window.interstitialAdInstance){
-      $msstart.showAdsAsync(window.interstitialAdInstance.instanceId).then(()=>{
-        console.log('Interstitial shown');
-      });
+    if (!interstitialAdInstance) {
+      console.warn('Interstitial ad not loaded');
+      return;
     }
+    $msstart.showAdsAsync(interstitialAdInstance.instanceId).then(ad => {
+      ad.showAdsCompletedAsync.then(() => {
+        console.log('Interstitial completed');
+        LoadInterstitialAd(); // Reload for next use
+      }).catch(err => {
+        console.error('Interstitial show error', err);
+      });
+    }).catch(err => {
+      console.error('ShowAdsAsync error', err);
+    });
   }
 
+  // Load rewarded ad
   function LoadRewardedAd() {
-    $msstart.loadAdsAsync({adType: 'rewarded'}).then(adInstance => {
-      window.rewardedAdInstance = adInstance;
+    $msstart.loadAdsAsync(true).then(ad => {
+      rewardedAdInstance = ad;
+      console.log('Rewarded loaded');
+    }).catch(err => {
+      console.error('Rewarded load failed', err);
     });
   }
 
+  // Show rewarded ad
   function ShowRewardedAd() {
-    if(window.rewardedAdInstance){
-      $msstart.showAdsAsync(window.rewardedAdInstance.instanceId).then(()=>{
-        console.log('Rewarded shown');
-        SendMessage('MSStartIntegration', 'OnRewardedAdComplete');
-      });
+    if (!rewardedAdInstance) {
+      console.warn('Rewarded ad not loaded');
+      return;
     }
-  }
-</script>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js')
-    .then(function(registration) {
-      console.log('Service Worker registered with scope:', registration.scope);
-    }, function(err) {
-      console.log('Service Worker registration failed:', err);
+    $msstart.showAdsAsync(rewardedAdInstance.instanceId).then(ad => {
+      ad.showAdsCompletedAsync.then(() => {
+        console.log('Rewarded ad watched fully');
+        SendMessage('MSStartIntegration', 'OnRewardedAdComplete');
+        LoadRewardedAd(); // Reload for next time
+      }).catch(err => {
+        console.warn('Rewarded ad skipped or failed', err);
+        // Optionally send skip message if you handle skipped rewards
+      });
+    }).catch(err => {
+      console.error('ShowAdsAsync error', err);
     });
   }
 </script>
+
 </body>
 </html>
