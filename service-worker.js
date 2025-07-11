@@ -1,14 +1,15 @@
-const CACHE_NAME = 'unity-game-cache-v1';
+
+const CACHE_NAME = 'Golf-Orbit-v1';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/Build/yourbuild.wasm',
-    '/Build/yourbuild.data',
-    '/Build/yourbuild.framework.js',
-    '/Build/yourbuild.loader.js',
+    '/Build/f2c407f58cf27b843f6672d563d2654f.data.unityweb',
+    '/Build/070841f5bb2a2672093800b5fd1f2313.wasm.unityweb',
+    '/Build/afdd5818e534a95bb786783c2dc9ac5d.framework.js.unityweb',
+    '/Build/9853637125e801e9aae48e78dbbdcfca.loader.js',
     '/TemplateData/style.css',
     '/icon-192.png',
-    '/icon-512.png'
+    '/icon-512x512.png'
 ];
 
 self.addEventListener('install', function(event) {
