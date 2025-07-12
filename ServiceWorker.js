@@ -1,9 +1,9 @@
 const cacheName = "TN-Golf Orbit-1.25.39";
 const contentToCache = [
     "Build/9853637125e801e9aae48e78dbbdcfca.loader.js",
-    "Build/bdf9373a9ebf9452b80abcf61f567afa.framework.js.unityweb",
-    "Build/8eaeaf15cc677cfa4488865217ab3086.data.unityweb",
-    "Build/05f88f49f5dda7e0c3f186c61fb1b205.wasm.unityweb",
+    "Build/4ef54955580221d974b096b1324b16d0.framework.js.unityweb",
+    "Build/64dfa7899d8bda4ee8579aca20f79bf4.data.unityweb",
+    "Build/28f33a4393ce4d9b730e804030f4844d.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
