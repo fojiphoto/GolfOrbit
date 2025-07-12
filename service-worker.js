@@ -3,7 +3,7 @@ const CACHE_NAME = 'Golf-Orbit-v1';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/Build/f2c407f58cf27b843f6672d563d2654f.data.unityweb',
+    '/Build/97bf6aad875b0c6b2d015360d1d2911c.data.unityweb',
     '/Build/070841f5bb2a2672093800b5fd1f2313.wasm.unityweb',
     '/Build/afdd5818e534a95bb786783c2dc9ac5d.framework.js.unityweb',
     '/Build/9853637125e801e9aae48e78dbbdcfca.loader.js',
