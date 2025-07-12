@@ -106,6 +106,13 @@
     // GLOBAL variables for ads
     let interstitialAdInstance = null;
     let rewardedAdInstance = null;
+    let isUnityReady = false;
+
+    // ✅ This function will be called from Unity C# when ready
+    function OnUnityReady() {
+        console.log('✅ Unity is fully ready');
+        isUnityReady = true;
+    }
 
     // Load interstitial ad
     function LoadInterstitialAd() {
@@ -152,45 +159,65 @@
             return;
         }
 
+        if (!isUnityReady) {
+            console.warn('Unity not ready yet, retrying ShowRewardedAd...');
+            setTimeout(ShowRewardedAd, 500);
+            return;
+        }
+
         // 🔇 Mute game audio before showing ad
-        if (typeof gameInstance !== 'undefined' && gameInstance.SendMessage) {
+        if (window.gameInstance && gameInstance.SendMessage) {
             gameInstance.SendMessage('MSStartIntegration', 'MuteAudio');
         }
 
         $msstart.showAdsAsync(rewardedAdInstance.instanceId).then(ad => {
             ad.showAdsCompletedAsync.then(() => {
                 console.log('Rewarded ad watched fully');
-                if (typeof gameInstance !== 'undefined' && gameInstance.SendMessage) {
+                if (window.gameInstance && gameInstance.SendMessage) {
                     gameInstance.SendMessage('MSStartIntegration', 'OnRewardedAdComplete');
                 } else {
                     console.error('❌ Unity gameInstance.SendMessage not ready');
                 }
                 // 🔊 Unmute game audio after ad
-                if (typeof gameInstance !== 'undefined' && gameInstance.SendMessage) {
+                if (window.gameInstance && gameInstance.SendMessage) {
                     gameInstance.SendMessage('MSStartIntegration', 'UnmuteAudio');
                 }
                 LoadRewardedAd(); // Reload for next time
             }).catch(err => {
                 console.warn('Rewarded ad skipped or failed', err);
-                // 🔊 Unmute game audio even if skipped
-                if (typeof gameInstance !== 'undefined' && gameInstance.SendMessage) {
+                if (window.gameInstance && gameInstance.SendMessage) {
                     gameInstance.SendMessage('MSStartIntegration', 'UnmuteAudio');
                 }
             });
         }).catch(err => {
             console.error('ShowAdsAsync error', err);
-            // 🔊 Unmute game audio on error
-            if (typeof gameInstance !== 'undefined' && gameInstance.SendMessage) {
+            if (window.gameInstance && gameInstance.SendMessage) {
                 gameInstance.SendMessage('MSStartIntegration', 'UnmuteAudio');
             }
         });
     }
 
     // ✅ Preload ads on page load
-    window.onload = function () {
+    window.addEventListener("load", function () {
         LoadRewardedAd();
         LoadInterstitialAd();
+    });
+</script>
+
+<script>
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+            window.gameInstance = unityInstance; // ✅ Assign globally
+            loadingBar.style.display = "none";
+        }).catch((message) => {
+            alert(message);
+        });
     };
+    document.body.appendChild(script);
 </script>
 
 
