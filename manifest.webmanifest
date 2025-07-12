@@ -5,7 +5,7 @@
     "display": "fullscreen",
     "background_color": "#000000",
     "theme_color": "#000",
-    "description": "",
+    "description": "Golf Orbit",
     "icons": [{
       "src": "TemplateData/icons/unity-logo-dark.png",
       "sizes": "144x144",

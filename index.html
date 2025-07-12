@@ -61,9 +61,9 @@
             frameworkUrl: buildUrl + "/afdd5818e534a95bb786783c2dc9ac5d.framework.js.unityweb",
             codeUrl: buildUrl + "/bdaba365781bf16dfcfc79ceb3a5f183.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
-            companyName: "PinpinTeam",
+            companyName: "TN",
             productName: "Golf Orbit",
-            productVersion: "1.25.39",
+            productVersion: "1.0",
             showBanner: unityShowBanner,
         };
 
@@ -142,28 +142,44 @@
                 console.warn('Rewarded ad not loaded');
                 return;
             }
+
+            // 🔇 Mute game audio before showing ad
+            if (typeof unityInstance !== 'undefined' && unityInstance.SendMessage) {
+                unityInstance.SendMessage('MSStartIntegration', 'MuteAudio');
+            }
+
             $msstart.showAdsAsync(rewardedAdInstance.instanceId).then(ad => {
                 ad.showAdsCompletedAsync.then(() => {
                     console.log('Rewarded ad watched fully');
-                    // ✅ Use gameInstance.SendMessage safely
-                    if (window.gameInstance && gameInstance.SendMessage) {
-                        gameInstance.SendMessage('MSStartIntegration', 'OnRewardedAdComplete');
+                    if (unityInstance && unityInstance.SendMessage) {
+                        unityInstance.SendMessage('MSStartIntegration', 'OnRewardedAdComplete');
                     } else {
                         console.error('❌ Unity gameInstance.SendMessage not ready');
+                    }
+                    // 🔊 Unmute game audio after ad
+                    if (typeof unityInstance !== 'undefined' && unityInstance.SendMessage) {
+                        unityInstance.SendMessage('MSStartIntegration', 'UnmuteAudio');
                     }
                     LoadRewardedAd(); // Reload for next time
                 }).catch(err => {
                     console.warn('Rewarded ad skipped or failed', err);
+                    // 🔊 Unmute game audio even if skipped
+                    if (typeof unityInstance !== 'undefined' && unityInstance.SendMessage) {
+                        unityInstance.SendMessage('MSStartIntegration', 'UnmuteAudio');
+                    }
                 });
             }).catch(err => {
                 console.error('ShowAdsAsync error', err);
+                // 🔊 Unmute game audio on error
+                if (typeof unityInstance !== 'undefined' && unityInstance.SendMessage) {
+                    unityInstance.SendMessage('MSStartIntegration', 'UnmuteAudio');
+                }
             });
             // Preload ads on page load
             window.onload = function () {
                 LoadRewardedAd();
                 LoadInterstitialAd();
             };
-
         }
     </script>
 
