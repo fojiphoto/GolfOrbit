@@ -1,9 +1,9 @@
-const cacheName = "PinpinTeam-Golf Orbit-1.25.39";
+const cacheName = "TN-Golf Orbit-1.25.39";
 const contentToCache = [
     "Build/9853637125e801e9aae48e78dbbdcfca.loader.js",
-    "Build/afdd5818e534a95bb786783c2dc9ac5d.framework.js.unityweb",
-    "Build/49213902b789e2308ed80070f00fe08c.data.unityweb",
-    "Build/bdaba365781bf16dfcfc79ceb3a5f183.wasm.unityweb",
+    "Build/bdf9373a9ebf9452b80abcf61f567afa.framework.js.unityweb",
+    "Build/9a59c6ddf85bd267b132ea041079005e.data.unityweb",
+    "Build/b455f114538e8b2e739fedea6d5e35cb.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
