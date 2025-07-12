@@ -94,6 +94,7 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
+           window.gameInstance = unityInstance; // ✅ Make Unity instance global
           loadingBar.style.display = "none";
         }).catch((message) => {
           alert(message);
