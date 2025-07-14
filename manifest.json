@@ -7,6 +7,7 @@
   "background_color": "#000000",
   "theme_color": "#000000",
   "ms_start_compatible": true,
+  "publisher": "CN=TapNationSAS",  // Add your correct publisher name here
   "icons": [
     {
       "src": "icon-1920x1080.png",
