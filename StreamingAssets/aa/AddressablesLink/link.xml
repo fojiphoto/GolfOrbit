@@ -9,7 +9,6 @@
     <type fullname="GreenMesh" preserve="all" />
     <type fullname="Hole" preserve="all" />
     <type fullname="I2.Loc.Localize" preserve="all" />
-    <type fullname="MobileDeviceDetection" preserve="all" />
     <type fullname="MultiplierText" preserve="all" />
     <type fullname="PaperPlaneTools.AlertUnityUIAdapter" preserve="all" />
     <type fullname="Pinpin.GameAssets" preserve="all" />

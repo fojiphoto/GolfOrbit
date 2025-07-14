@@ -1,12 +1,12 @@
 
-const CACHE_NAME = 'TN-Golf-Orbit-v1';
+const CACHE_NAME = 'Golf-Orbit-v1';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/Build/9a59c6ddf85bd267b132ea041079005e.data.unityweb',
-    '/Build/b455f114538e8b2e739fedea6d5e35cb.wasm.unityweb',
-    '/Build/bdf9373a9ebf9452b80abcf61f567afa.framework.js.unityweb',
-    '/Build/9853637125e801e9aae48e78dbbdcfca.loader.js',
+    '/Build/',
+    '/Build/',
+    '/Build/',
+    '/Build/bb0d9ecdb05db3e84da20bd14a4f84dc.loader.js',
     '/TemplateData/style.css',
     '/icon-1920x1080.png',
     '/icon-512x512.png'
